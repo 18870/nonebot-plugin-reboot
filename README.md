@@ -9,7 +9,7 @@
 仅在 `linux` `python3.8` `fastapi` 驱动器下测试过。
 理论上与平台无关，但是我没测试（
 
-:warning:重启时直接对子进程使用 `process.terminate()`，如果你的其他插件启动了子进程，请确保它们能在 5 秒内正确关闭子进程，否则子进程会变成孤立进程。
+:warning:重启时直接对子进程使用 `process.terminate()`，如果你的其他插件启动了子进程，请确保它们能在设定的等待时间内正确关闭子进程，否则子进程会变成孤立进程。
 
 <hr>  
 
@@ -38,11 +38,16 @@
 - 可以通过命令 `重启` `reboot` `restart` 触发重启 
 - 默认值: `True` 
 
+`reboot_grace_time_limit`: `int`
+- 收到重启命令后等待进程退出的最长时间，超时会强制杀进程
+- ~~真寻从ctrl+c到彻底退出居然要六秒~~
+- 默认值: `20`
+
 
 ## API
 ```python
 from nonebot_plugin_reboot import Reloader
-Reloader.reload() # 触发重启
+Reloader.reload(delay=5) # 5秒后触发重启
 ```
 
 
