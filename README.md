@@ -65,6 +65,7 @@ if __name__ == "__mp_main__": # 仅在子进程运行的代码
 if __name__ == "__main__": # 仅在主进程运行的代码
     # nonebot.logger.warning("Always use `nb run` to start the bot instead of manually running!")
     # 运行 nonebot
+    nonebot.load_plugin("nonebot_plugin_reboot")
     nonebot.run(app="__mp_main__:app")
 ```
 
