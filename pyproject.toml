@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "nonebot_plugin_reboot"
+version = "0.1.0"
+description = ""
+authors = ["18870 <a20110123@163.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nonebot2 = "^2.0.0-beta.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
