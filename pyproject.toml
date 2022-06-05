@@ -1,8 +1,12 @@
 [tool.poetry]
 name = "nonebot_plugin_reboot"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Reboot your bot by using command"
+license = "MIT"
 authors = ["18870 <a20110123@163.com>"]
+readme = "README.md"
+repository = "https://github.com/18870/nonebot-plugin-reboot"
+keywords = ["nonebot"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
