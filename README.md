@@ -21,14 +21,14 @@
 
 
 ## 安装
-通过 pip 安装:
+通过 pip 安装:  
 `pip install nonebot-plugin-reboot`  
 并加载插件
 
 
 ## 使用
 **超级用户**向机器人**私聊**发送**命令** `重启`, `reboot` 或 `restart`  
-> :warning: 注意命令的 `COMMAND_START`.
+> :warning: 注意命令的 `COMMAND_START`.  
 > 例如 /重启 、 /reboot 、 /restart
 
 
@@ -43,13 +43,40 @@
 - ~~真寻从ctrl+c到彻底退出居然要六秒~~
 - 默认值: `20`
 
+## `bot.py`
+因为使用了 `spawn` 方式启动子进程，默认的 bot.py 会加载两次插件。  
+
+推荐的写法是将 插件加载部分 和 nonebot启动部分 分开，以避免插件在主进程和子进程都加载一遍
+
+~~真寻启动居然要20秒~~
+
+```python
+#
+# 上面省略
+#
+
+if __name__ == "__mp_main__": # 仅在子进程运行的代码
+    # Please DO NOT modify this file unless you know what you are doing!
+    # As an alternative, you should use command `nb` or modify `pyproject.toml` to load plugins
+    # 加载插件
+    nonebot.load_from_toml("pyproject.toml")
+    nonebot.load_plugins("src/plugins")
+
+if __name__ == "__main__": # 仅在主进程运行的代码
+    # nonebot.logger.warning("Always use `nb run` to start the bot instead of manually running!")
+    # 运行 nonebot
+    nonebot.run(app="__mp_main__:app")
+```
+
 
 ## API
 ```python
+require("nonebot_plugin_reboot")
 from nonebot_plugin_reboot import Reloader
-Reloader.reload(delay=5) # 5秒后触发重启
+Reloader.reload(delay=5) # 可选参数 5秒后触发重启
 ```
 
 
 ## 依赖 
 `nonebot2 >= 2.0.0beta.2` 
+`nonebot-adapter-onebot`
