@@ -84,5 +84,5 @@ Reloader.reload(delay=5) # 可选参数 5秒后触发重启
 ## 依赖 
 `nonebot2 >= 2.0.0beta.2`  
 
-启用 `reboot_load_command` 时需要以下依赖
+启用 `reboot_load_command` 时需要以下依赖  
 `nonebot-adapter-onebot`
