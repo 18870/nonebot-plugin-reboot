@@ -8,7 +8,7 @@
 需要在 bot 目录下使用 `python bot.py` 启动。
 
 重启时直接对子进程使用 `process.terminate()`，如果你的其他插件启动了子进程，请确保它们能在设定的等待时间内正确关闭子进程，否则子进程会变成孤立进程。  
-:warning: Windows 下因系统限制 **没有** 等待时间
+:warning: Windows 下因系统 API 的限制进程会直接被杀死， **没有** 等待时间。
 
 <hr>  
 
@@ -62,6 +62,8 @@ if __name__ == "__mp_main__": # 仅在子进程运行的代码
     # 加载插件
     nonebot.load_from_toml("pyproject.toml")
     nonebot.load_plugins("src/plugins")
+    nonebot.load_plugin("nonebot_plugin_xxxxxx")
+    # ...
 
 if __name__ == "__main__": # 仅在主进程运行的代码
     # nonebot.logger.warning("Always use `nb run` to start the bot instead of manually running!")
@@ -81,4 +83,6 @@ Reloader.reload(delay=5) # 可选参数 5秒后触发重启
 
 ## 依赖 
 `nonebot2 >= 2.0.0beta.2`  
+
+启用 `reboot_load_command` 时需要以下依赖
 `nonebot-adapter-onebot`
