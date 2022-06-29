@@ -7,6 +7,8 @@
 **不支持** `nb-cli`，即 `nb run` 启动方式。
 需要在 bot 目录下使用 `python bot.py` 启动。
 
+**不兼容** `fastapi_reload`，见 [#1](https://github.com/18870/nonebot-plugin-reboot/issues/1)、[#2](https://github.com/18870/nonebot-plugin-reboot/issues/2) 
+
 重启时直接对子进程使用 `process.terminate()`，如果你的其他插件启动了子进程，请确保它们能在设定的等待时间内正确关闭子进程，否则子进程会变成孤立进程。  
 :warning: Windows 下因系统 API 的限制进程会直接被杀死， **没有** 等待时间。
 
@@ -82,7 +84,7 @@ Reloader.reload(delay=5) # 可选参数 5秒后触发重启
 
 
 ## 依赖 
-`nonebot2 >= 2.0.0beta.2`  
+- `nonebot2 >= 2.0.0beta.2`  
 
 启用 `reboot_load_command` 时需要以下依赖  
-`nonebot-adapter-onebot`
+- `nonebot-adapter-onebot`
