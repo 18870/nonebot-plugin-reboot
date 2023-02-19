@@ -1,31 +1,30 @@
 # Nonebot-plugin-reboot 
+![](https://img.shields.io/badge/Development-Inactive-inactive) ![](https://img.shields.io/badge/PullRequests-Welcome-success)
+
 用命令重启 bot 
 
 [![asciicast](https://asciinema.org/a/z10hzQ7Pgx4s9TVwj0nAv2TsV.svg)](https://asciinema.org/a/z10hzQ7Pgx4s9TVwj0nAv2TsV)
 
 ## :warning:注意事项
-**不支持** `nb-cli`，即 `nb run` 启动方式。
-需要在 bot 目录下使用 `python bot.py` 启动。
+**必须要有** `bot.py`  
+新版 nb-cli 默认不生成 bot.py，需要在 nb 菜单里选择 `生成机器人的入口文件` / `Generate entry file of your bot.` 生成一个，不需要修改。 ~~不要再去群里问bot.py在哪了~~
 
-**不兼容** `fastapi_reload`，见 [#1](https://github.com/18870/nonebot-plugin-reboot/issues/1)、[#2](https://github.com/18870/nonebot-plugin-reboot/issues/2) 
+**不兼容** `fastapi_reload`，见 [#1](https://github.com/18870/nonebot-plugin-reboot/issues/1)、[#2](https://github.com/18870/nonebot-plugin-reboot/issues/2)。  
+不推荐使用 nb-cli 的 `--reload` 参数，这个插件是 `--reload` 在生产环境中的替代品。
 
 重启时直接对子进程使用 `process.terminate()`，如果你的其他插件启动了子进程，请确保它们能在设定的等待时间内正确关闭子进程，否则子进程会变成孤立进程。  
 :warning: Windows 下因系统 API 的限制进程会直接被杀死， **没有** 等待时间。
 
 <hr>  
 
-插件依赖于 `multiprocessing` `spawn` 生成子进程方式工作，支持由 `nb-cli` 生成的 bot.py，或任何显式加载了 `bot.py` 并在加载插件后调用 `nonebot.run` 的启动方式。  
-
-不支持 `nb run` 启动，因为 `nb run` 使用 `importlib` 在函数内加载 `bot.py`，multiprocessing 生成子进程时不会运行 `bot.py`，即 nonebot 初始化和加载插件的过程，导致启动失败。  
-
-得益于使用 `spawn` 方式启动，每次重启都相当于重新加载了所有代码。只有这个插件本身或者 `bot.py` 有更新时才需要彻底关闭 bot 重启。
+插件依赖于 `multiprocessing` `spawn` 生成子进程方式工作，支持由 nb-cli 生成的 bot.py，以及其他在加载插件后调用 `nonebot.run()` 的启动方式。  
 
 
 ## 安装
 通过 nb-cli 安装:  
 `nb plugin install nonebot-plugin-reboot`  
-通过 pip 安装:  
-`pip install nonebot-plugin-reboot`  
+
+新版 nb-cli 默认不生成 bot.py，需要在 nb 菜单里选择 `生成机器人的入口文件` / `Generate entry file of your bot.` 生成一个，不需要修改。
 
 
 ## 使用
@@ -46,10 +45,11 @@
 - ~~真寻从ctrl+c到彻底退出居然要六秒~~
 - 默认值: `20`
 
-## `bot.py`
-因为使用了 `spawn` 方式启动子进程，默认的 bot.py 会加载两次插件。  
 
-推荐的写法是将 插件加载部分 和 nonebot启动部分 分开，以避免插件在主进程和子进程都加载一遍
+## `bot.py`
+因为使用了 `spawn` 方式启动子进程，默认情况下会加载两次插件，如果你觉得这不是问题可以忽略这段，也不建议你在不懂的情况下修改 `bot.py`。
+
+推荐的写法是将 插件加载部分 和 启动部分 分开，以避免插件在主进程和子进程都加载一遍
 
 ~~真寻启动居然要20秒~~
 
@@ -63,8 +63,6 @@ if __name__ == "__mp_main__": # 仅在子进程运行的代码
     # As an alternative, you should use command `nb` or modify `pyproject.toml` to load plugins
     # 加载插件
     nonebot.load_from_toml("pyproject.toml")
-    nonebot.load_plugins("src/plugins")
-    nonebot.load_plugin("nonebot_plugin_xxxxxx")
     # ...
 
 if __name__ == "__main__": # 仅在主进程运行的代码
