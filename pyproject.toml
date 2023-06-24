@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_reboot"
-version = "0.1.3"
+version = "0.1.4"
 description = "Reboot your bot by using command"
 license = "MIT"
 authors = ["18870 <a20110123@163.com>"]
