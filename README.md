@@ -3,7 +3,7 @@
 
 用命令重启 bot 
 
-[![asciicast](https://asciinema.org/a/z10hzQ7Pgx4s9TVwj0nAv2TsV.svg)](https://asciinema.org/a/z10hzQ7Pgx4s9TVwj0nAv2TsV)
+<!-- [![asciicast](https://asciinema.org/a/z10hzQ7Pgx4s9TVwj0nAv2TsV.svg)](https://asciinema.org/a/z10hzQ7Pgx4s9TVwj0nAv2TsV) -->
 
 ## :warning:注意事项
 **必须要有** `bot.py`  
@@ -47,30 +47,13 @@
 
 
 ## `bot.py`
-因为使用了 `spawn` 方式启动子进程，默认情况下会加载两次插件，如果你觉得这不是问题可以忽略这段，也不建议你在不懂的情况下修改 `bot.py`。
+因为使用了 `spawn` 方式启动子进程，默认情况下会加载两次插件，如果你觉得这不是问题可以忽略，也不建议你在不懂的情况下修改 `bot.py`。
 
-推荐的写法是将 插件加载部分 和 启动部分 分开，以避免插件在主进程和子进程都加载一遍
+推荐的写法是将 插件加载部分 和 启动部分 分开，以避免插件在主进程和子进程都加载一遍，见 [#6](https://github.com/18870/nonebot-plugin-reboot/issues/6)
 
 ~~真寻启动居然要20秒~~
 
-```python
-#
-# 上面省略
-#
 
-if __name__ == "__mp_main__": # 仅在子进程运行的代码
-    # Please DO NOT modify this file unless you know what you are doing!
-    # As an alternative, you should use command `nb` or modify `pyproject.toml` to load plugins
-    # 加载插件
-    nonebot.load_from_toml("pyproject.toml")
-    # ...
-
-if __name__ == "__main__": # 仅在主进程运行的代码
-    # nonebot.logger.warning("Always use `nb run` to start the bot instead of manually running!")
-    # 运行 nonebot
-    nonebot.load_plugin("nonebot_plugin_reboot") # 加载重启插件
-    nonebot.run(app="__mp_main__:app")
-```
 
 
 ## API
